@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>{{ data ? 'Edit Todo' : 'Add Todo' }}</h2>
+<div mat-dialog-content>
+  <form [formGroup]="taskForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title">
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea rows="4" matInput formControlName="description"></textarea>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="saveTask()">Save</button>
+</div>

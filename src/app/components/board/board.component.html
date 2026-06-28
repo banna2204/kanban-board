@@ -1,0 +1,30 @@
+<div class="header">
+    <h1>Kanban Board</h1>
+    <button mat-raised-button color="primary" (click)="openDialog()">+ Add Todo</button>
+</div>
+
+<div class="board">
+    <div class="column">
+        <h2>Todo</h2>
+        <mat-card *ngFor="let task of getTasks('todo')">
+            <h3>{{task.title}}</h3>
+            <p>{{task.description}}</p>
+            <button class="edit-btn" mat-raised-button color="accent" (click)="editTask(task)">Edit</button>
+        </mat-card>
+    </div>
+
+    <div class="column">
+        <h2>In Progress</h2>
+        <mat-card *ngFor="let task of getTasks('inProgress')">
+            <h3>{{task.title}}</h3>
+            <p>{{task.description}}</p>
+        </mat-card>
+    </div>
+    <div class="column">
+        <h2>Completed</h2>
+        <mat-card *ngFor="let task of getTasks('completed')">
+            <h3>{{task.title}}</h3>
+            <p>{{task.description}}</p>
+        </mat-card>
+    </div>
+</div>
