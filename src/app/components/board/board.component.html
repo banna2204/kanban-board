@@ -4,27 +4,41 @@
 </div>
 
 <div class="board">
-    <div class="column">
+    <div class="column" cdkDropList #todoList="cdkDropList" (cdkDropListDropped)="drop($event,'todo')" [cdkDropListData]="todoTasks" [cdkDropListConnectedTo]="[inProgessList,completeList]">
         <h2>Todo</h2>
-        <mat-card *ngFor="let task of getTasks('todo')">
+        <mat-card *ngFor="let task of todoTasks" cdkDrag>
+            <mat-icon class="edit-icon" aria-hidden="false" aria-label="Example edit icon" fontIcon="edit" (click)="editTask(task)"></mat-icon>
             <h3>{{task.title}}</h3>
             <p>{{task.description}}</p>
-            <button class="edit-btn" mat-raised-button color="accent" (click)="editTask(task)">Edit</button>
+            <div class="flex">
+                <p class="todoStatus">{{task.status}}</p>
+                <p>Date - {{task.id | date:'mediumTime'}}</p>
+            </div>
         </mat-card>
     </div>
 
-    <div class="column">
+    <div class="column" cdkDropList #inProgessList="cdkDropList"  (cdkDropListDropped)="drop($event,'inProgress')" [cdkDropListData]="inProgressTask" [cdkDropListConnectedTo]="[todoList,completeList]">
         <h2>In Progress</h2>
-        <mat-card *ngFor="let task of getTasks('inProgress')">
+        <mat-card *ngFor="let task of inProgressTask" cdkDrag>
+            <mat-icon class="edit-icon" aria-hidden="false" aria-label="Example edit icon" fontIcon="edit" (click)="editTask(task)"></mat-icon>
             <h3>{{task.title}}</h3>
             <p>{{task.description}}</p>
+             <div class="flex">
+                <p class="progressStatus">{{task.status}}</p>
+                <p>Date - {{task.id | date:'mediumTime'}}</p>
+            </div>
         </mat-card>
     </div>
-    <div class="column">
+    <div class="column" cdkDropList #completeList="cdkDropList" (cdkDropListDropped)="drop($event,'completed')" [cdkDropListData]="completeTasks" [cdkDropListConnectedTo]="[todoList,inProgessList]">
         <h2>Completed</h2>
-        <mat-card *ngFor="let task of getTasks('completed')">
-            <h3>{{task.title}}</h3>
-            <p>{{task.description}}</p>
+        <mat-card *ngFor="let task of completeTasks" cdkDrag>
+            <mat-icon class="edit-icon" aria-hidden="false" aria-label="Example edit icon" fontIcon="edit" (click)="editTask(task)"></mat-icon>
+                <h3>{{task.title}}</h3>
+                <p>{{task.description}}</p>
+                 <div class="flex">
+                <p class="completeStatus">{{task.status}}</p>
+                <p>Date - {{task.id | date:'mediumTime'}}</p>
+            </div>
         </mat-card>
     </div>
 </div>

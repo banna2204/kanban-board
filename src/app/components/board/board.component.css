@@ -25,5 +25,34 @@
 
 mat-card {
   margin-bottom: 15px;
+  padding: 10px;
   cursor: pointer;
+}
+
+.edit-icon{
+  align-self: flex-end;
+  font-size: 15px;
+}
+
+.flex{
+  display: flex;
+  justify-content: space-between;
+}
+
+.todoStatus{
+  background-color: rgb(225, 29, 29);
+  padding:0 2px;
+  border-radius:20% ;
+}
+
+.progressStatus{
+  background-color: orangered;
+  padding:0 2px;
+  border-radius:4px ;
+}
+
+.completeStatus{
+  background-color: rgb(45, 159, 45);
+  padding:0 2px;
+  border-radius:5px ;
 }

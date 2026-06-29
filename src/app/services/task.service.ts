@@ -7,28 +7,20 @@ import { Task } from '../task';
 })
 export class TaskService {
   private tasksSubject = new BehaviorSubject<Task[]>(JSON.parse(localStorage.getItem('tasks') || '[]'));
-  tasks$ = this.tasksSubject.asObservable();
+  tasks = this.tasksSubject.asObservable();
 
   constructor() {}
 
-  private saveTasks(tasks: Task[]) {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    this.tasksSubject.next(tasks);
-  }
-
-  // getTasks() {
-  //   return this.tasksSubject.value;
-  // }
-
   addTask(task: Task) {
     const tasks = [...this.tasksSubject.value, task];
-    this.saveTasks(tasks);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    this.tasksSubject.next(tasks);
   }
 
   updateTask(updatedTask: Task) {
     const tasks = this.tasksSubject.value.map((task) =>
       task.id === updatedTask.id ? updatedTask : task,
     );
-    this.saveTasks(tasks);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 }

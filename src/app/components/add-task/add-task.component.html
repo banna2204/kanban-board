@@ -4,14 +4,23 @@
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
       <input matInput formControlName="title">
+      <div *ngIf="taskForm.get('title')?.touched && taskForm.get('title')?.invalid"> 
+        <mat-error *ngIf="taskForm.get('title')?.errors?.['required']">Title is required</mat-error>
+        <mat-error *ngIf="taskForm.get('title')?.errors?.['trimm']">Title is required</mat-error>
+      </div>
     </mat-form-field>
     <br>
     <mat-form-field appearance="outline">
       <mat-label>Description</mat-label>
       <textarea rows="4" matInput formControlName="description"></textarea>
+      <div *ngIf="taskForm.get('description')?.touched && taskForm.get('description')?.invalid"> 
+        <mat-error *ngIf="taskForm.get('description')?.errors?.['required']">Description is required</mat-error>
+        <mat-error *ngIf="taskForm.get('description')?.errors?.['trimmed']">Description is required</mat-error>
+      </div>
     </mat-form-field>
   </form>
 </div>
-<div mat-dialog-actions align="end">
-  <button mat-raised-button color="primary" (click)="saveTask()">Save</button>
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="cancelTask()">Cancel</button>
+  <button [disabled]="taskForm.invalid" mat-raised-button color="primary" (click)="saveTask()">{{ data ? 'Update Todo' : 'Add Todo' }}</button>
 </div>
