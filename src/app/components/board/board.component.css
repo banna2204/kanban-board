@@ -56,3 +56,15 @@ mat-card {
   padding:0 2px;
   border-radius:5px ;
 }
+.cdk-drag-placeholder{
+  opacity: 0;
+}
+
+.undo{
+  cursor: pointer;
+  margin-left: 10px;
+}
+.undoRedo{
+  display: flex;
+  gap:5px
+}

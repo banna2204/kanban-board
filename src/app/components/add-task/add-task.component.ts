@@ -4,19 +4,19 @@ import { MatDialogRef, MAT_DIALOG_DATA, } from '@angular/material/dialog';
 import { TaskService } from 'src/app/services/task.service';
 import { Task } from 'src/app/task';
 
-function trimValidator() : ValidatorFn {
-    return (control : AbstractControl) : ValidationErrors | null => {
-        if(typeof control.value == 'string' && control.value.trim().length == 0){
-            return {trimm : true}
-        }
-        return null;
+function trimValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (typeof control.value == 'string' && control.value.trim().length == 0) {
+      return { trimm: true }
     }
+    return null;
+  }
 }
 
-function sequenceValidator(validators : ValidatorFn[]) : ValidatorFn {
-  return (control : AbstractControl) : ValidationErrors | null => {
-    for(let validator of validators){
-      if(validator(control)){
+function sequenceValidator(validators: ValidatorFn[]): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    for (let validator of validators) {
+      if (validator(control)) {
         return validator(control);
       }
     }
@@ -32,14 +32,14 @@ function sequenceValidator(validators : ValidatorFn[]) : ValidatorFn {
 export class AddTaskComponent {
 
   constructor(
-   private dialogRef: MatDialogRef<AddTaskComponent>,
+    private dialogRef: MatDialogRef<AddTaskComponent>,
     private taskService: TaskService,
     @Inject(MAT_DIALOG_DATA) public data: Task
-  ) {}
+  ) { }
 
   taskForm = new FormGroup({
-    title: new FormControl('',sequenceValidator([Validators.required,trimValidator()])),
-    description: new FormControl('', sequenceValidator([Validators.required,trimValidator()]))
+    title: new FormControl('', sequenceValidator([Validators.required, trimValidator()])),
+    description: new FormControl('', sequenceValidator([Validators.required, trimValidator()]))
   });
 
   ngOnInit() {
@@ -52,33 +52,39 @@ export class AddTaskComponent {
   }
 
   saveTask() {
-  if (this.data) {
-    this.taskService.updateTask({
-      id: this.data.id,
-      title: this.taskForm.value.title!,
-      description: this.taskForm.value.description!,
-      status: this.data.status
-    });
-  }
-  else {
-    this.taskService.addTask({
-      id: Date.now(),
-      title: this.taskForm.value.title!,
-      description: this.taskForm.value.description!,
-      status: 'todo'
-    });
+    if (this.data) {
+      this.taskService.updateTask({
+        id: this.data.id,
+        title: this.taskForm.value.title!,
+        description: this.taskForm.value.description!,
+        status: this.data.status,
+        date: Date.now(),
+      });
+    }
+    else {
+      this.taskService.addTask({
+        id: Date.now(),
+        title: this.taskForm.value.title!,
+        description: this.taskForm.value.description!,
+        status: 'todo',
+        date: Date.now(),
+      });
+    }
+    this.dialogRef.close();
   }
 
-  this.dialogRef.close();
-}
-
-  cancelTask(){
-    if(this.taskForm.get('title')?.valid  || this.taskForm.get('description')?.valid){
-      const userconfirm = confirm('are you sure, you want to cancle') 
-      if(userconfirm) this.dialogRef.close();
-    }else{
+  cancelTask() {
+    let title = this.taskForm.get('title')?.value;
+    let desc = this.taskForm.get('description')?.value;
+    if(this.data && (this.data?.title !== title || this.data?.description !== desc)){
+      const userconfirm = confirm('are you sure, you want to cancle')
+      if (userconfirm) this.dialogRef.close(); 
+    }
+    else if (!this.data && this.taskForm.get('title')?.valid || this.taskForm.get('description')?.valid) {
+      const userconfirm = confirm('are you sure, you want to cancle')
+      if (userconfirm) this.dialogRef.close();
+    } else {
       this.dialogRef.close();
     }
-
   }
 }

@@ -2,42 +2,53 @@
     <h1>Kanban Board</h1>
     <button mat-raised-button color="primary" (click)="openDialog()">+ Add Todo</button>
 </div>
+<div class="undoRedo">
+    <div (click)="undoClick()" class="undo">Undo</div>
+    <div (click)="redoClick()" class="undo">Redo</div>
+</div>
+
 
 <div class="board">
-    <div class="column" cdkDropList #todoList="cdkDropList" (cdkDropListDropped)="drop($event,'todo')" [cdkDropListData]="todoTasks" [cdkDropListConnectedTo]="[inProgessList,completeList]">
+    <div class="column" cdkDropList #todoList="cdkDropList" (cdkDropListDropped)="drop($event,'todo')"
+        [cdkDropListData]="todoTasks" [cdkDropListConnectedTo]="[inProgessList,completeList]">
         <h2>Todo</h2>
         <mat-card *ngFor="let task of todoTasks" cdkDrag>
-            <mat-icon class="edit-icon" aria-hidden="false" aria-label="Example edit icon" fontIcon="edit" (click)="editTask(task)"></mat-icon>
+            <mat-icon class="edit-icon" aria-hidden="false" aria-label="Example edit icon" fontIcon="edit"
+                (click)="editTask(task)"></mat-icon>
             <h3>{{task.title}}</h3>
             <p>{{task.description}}</p>
             <div class="flex">
-                <p class="todoStatus">{{task.status}}</p>
-                <p>Date - {{task.id | date:'mediumTime'}}</p>
+                <p class="todoStatus">{{task.status | capitalize}}</p>
+                <p>Date - {{task.date | date:'mediumTime'}}</p>
             </div>
         </mat-card>
     </div>
 
-    <div class="column" cdkDropList #inProgessList="cdkDropList"  (cdkDropListDropped)="drop($event,'inProgress')" [cdkDropListData]="inProgressTask" [cdkDropListConnectedTo]="[todoList,completeList]">
+    <div class="column" cdkDropList #inProgessList="cdkDropList" (cdkDropListDropped)="drop($event,'inProgress')"
+        [cdkDropListData]="inProgressTask" [cdkDropListConnectedTo]="[todoList,completeList]">
         <h2>In Progress</h2>
         <mat-card *ngFor="let task of inProgressTask" cdkDrag>
-            <mat-icon class="edit-icon" aria-hidden="false" aria-label="Example edit icon" fontIcon="edit" (click)="editTask(task)"></mat-icon>
+            <mat-icon class="edit-icon" aria-hidden="false" aria-label="Example edit icon" fontIcon="edit"
+                (click)="editTask(task)"></mat-icon>
             <h3>{{task.title}}</h3>
             <p>{{task.description}}</p>
-             <div class="flex">
-                <p class="progressStatus">{{task.status}}</p>
-                <p>Date - {{task.id | date:'mediumTime'}}</p>
+            <div class="flex">
+                <p class="progressStatus">{{task.status | capitalize}}</p>
+                <p>Date - {{task.date | date:'mediumTime'}}</p>
             </div>
         </mat-card>
     </div>
-    <div class="column" cdkDropList #completeList="cdkDropList" (cdkDropListDropped)="drop($event,'completed')" [cdkDropListData]="completeTasks" [cdkDropListConnectedTo]="[todoList,inProgessList]">
+    <div class="column" cdkDropList #completeList="cdkDropList" (cdkDropListDropped)="drop($event,'completed')"
+        [cdkDropListData]="completeTasks" [cdkDropListConnectedTo]="[todoList,inProgessList]">
         <h2>Completed</h2>
         <mat-card *ngFor="let task of completeTasks" cdkDrag>
-            <mat-icon class="edit-icon" aria-hidden="false" aria-label="Example edit icon" fontIcon="edit" (click)="editTask(task)"></mat-icon>
-                <h3>{{task.title}}</h3>
-                <p>{{task.description}}</p>
-                 <div class="flex">
-                <p class="completeStatus">{{task.status}}</p>
-                <p>Date - {{task.id | date:'mediumTime'}}</p>
+            <mat-icon class="edit-icon" aria-hidden="false" aria-label="Example edit icon" fontIcon="edit"
+                (click)="editTask(task)"></mat-icon>
+            <h3>{{task.title}}</h3>
+            <p>{{task.description}}</p>
+            <div class="flex">
+                <p class="completeStatus">{{task.status | capitalize}}</p>
+                <p>Date - {{task.date | date:'mediumTime'}}</p>
             </div>
         </mat-card>
     </div>

@@ -13,12 +13,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { CapitalizePipe } from './capitalize.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     BoardComponent,
-    AddTaskComponent
+    AddTaskComponent,
+    CapitalizePipe
   ],
   imports: [
     BrowserModule,
