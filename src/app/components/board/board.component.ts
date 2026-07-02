@@ -19,26 +19,21 @@ export class BoardComponent implements OnInit {
   todoTasks: Task[] = [];
   inProgressTask: Task[] = [];
   completeTasks: Task[] = [];
-  latestOrder: number = -1;
-  latestStatus: string = '';
-  task: Task = { id: 0, title: '', description: '', date: Date.now(), status: '' as 'todo' | 'inProgress' | 'completed', };
-  targetIndex: number = -1;
-  originalIndex: number = -1;
-  redoStatus: string = '';
-  newDate = new Date().toLocaleDateString()
+  lastMove = { id: 0, fromStatus: '', toStatus: '', fromIndex: 0, toIndex: 0 };
+  redoMove = { id: 0, fromStatus: '', toStatus: '', fromIndex: 0, toIndex: 0 };
+  newDate = new Date().toLocaleDateString();
 
   constructor(
     private dialog: MatDialog,
     private taskService: TaskService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.taskService.tasks.subscribe((tasks: any) => {
-      this.todoTasks = tasks.todo
+    this.taskService.tasks.subscribe((data: any) => {
+      this.todoTasks = data.todo;
+      this.inProgressTask = data.inProgress;
+      this.completeTasks = data.completed;
     });
-    // this.todoTasks = this.tasks.filter((task) => task.status === 'todo');
-    // this.inProgressTask = this.tasks.filter((task) => task.status === 'inProgress',);
-    // this.completeTasks = this.tasks.filter((task) => task.status === 'completed',);
   }
 
   openDialog() {
@@ -54,74 +49,79 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  // getNeighboreTask(event: CdkDragDrop<Task[]>) {
-  //   let neighbore = event.container.data[event.currentIndex];
-  //   if (neighbore) {
-  //     this.targetIndex = this.tasks.findIndex((item) => item.id === neighbore.id);
-  //   } else {
-  //     this.targetIndex = this.tasks.length;
-  //   }
-  //   return this.targetIndex;
-  // }
-
-  // movedTask(event: CdkDragDrop<Task[]>) {
-  //   let movedtask = event.container.data[event.previousIndex];
-  //   this.latestStatus = movedtask.status;
-  //   this.originalIndex = this.tasks.findIndex((task) => task.id == movedtask.id,);
-  //   return this.originalIndex;
-  // }
-
-  getData(status:string){
-    let data;
-    const parse = JSON.parse(localStorage.getItem('masterArray') || '[[]]');
-    if (status == 'todo') data = parse.todo;
-      else if (status == 'completed') data = parse.completed;
-      else if (status == 'inProgress') data = parse.inProgress;
-      console.log(data)
-      return {data,parse};
+  getData(status: string, parse: any) {
+    switch (status) {
+      case 'todo': return parse.todo;
+      case 'inProgress': return parse.inProgress;
+      case 'completed': return parse.completed;
+      default:
+        return [];
     }
-    
-    drop(event: CdkDragDrop<Task[]>, status: string) {
-      if (event.previousContainer === event.container) {
-      this.latestStatus = event.container.data[event.previousIndex].status
-      let data = this.getData(status);
-      moveItemInArray(data.data, event.previousIndex, event.currentIndex);
-      this.taskService.saveData(data.parse);
+  }
+
+  drop(event: CdkDragDrop<Task[]>, status: string) {
+    if (event.previousContainer === event.container) {
+      const parse = JSON.parse(localStorage.getItem('masterArray') || '{}');
+      this.lastMove = {
+        id: event.previousContainer.data[event.previousIndex].id,
+        fromStatus: event.previousContainer.data[event.previousIndex].status,
+        toStatus: status,
+        fromIndex: event.previousIndex,
+        toIndex: event.currentIndex,
+      };
+      let data = status === 'todo' ? parse.todo : status === 'inProgress' ? parse.inProgress : parse.completed;
+      moveItemInArray(data, event.previousIndex, event.currentIndex);
+      this.taskService.saveData(parse);
     } else {
-      let data = this.getData(status);
-      console.log(data.data)
-      transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex,);
-      // this.task = event.container.data[event.currentIndex];
-      // this.latestStatus = this.task.status
-      // this.task.status = status as 'todo' | 'inProgress' | 'completed';
-      // this.task.date = Date.now();
-      // this.taskService.saveData(this.tasks);
+      this.lastMove = {
+        id: event.previousContainer.data[event.previousIndex].id,
+        fromStatus: event.previousContainer.data[event.previousIndex].status,
+        toStatus: status,
+        fromIndex: event.previousIndex,
+        toIndex: event.currentIndex,
+      };
+      const parse = JSON.parse(localStorage.getItem('masterArray') || '{}');
+      const source = event.previousContainer.id === 'todo' ? parse.todo : event.previousContainer.id === 'inProgress' ? parse.inProgress : parse.completed;
+      const destination = status === 'todo' ? parse.todo : status === 'inProgress'
+            ? parse.inProgress : parse.completed;
+9
+      transferArrayItem(source,destination,event.previousIndex,event.currentIndex,);
+      destination[event.currentIndex].status = status as | 'todo' | 'inProgress' | 'completed';
+      destination[event.currentIndex].date = Date.now();
+      this.taskService.saveData(parse);
     }
-    this.task = event.container.data[event.currentIndex];
   }
 
   undoClick() {
-    if (this.latestStatus == '') return;
-    if (this.originalIndex !== -1) {
-      let data = this.tasks[this.originalIndex];
-      this.tasks[this.originalIndex] = this.tasks[this.targetIndex];
-      this.tasks[this.targetIndex] = data;
-    }
-    this.redoStatus = this.task.status;
-    this.task.status = this.latestStatus as 'todo' | 'inProgress' | 'completed';
-    this.taskService.updateTask(this.task);
-    this.latestStatus = '';
+    if(this.lastMove.id==0) return;
+    const parse = JSON.parse(localStorage.getItem('masterArray') || '{}');
+    const source = this.getData(this.lastMove.toStatus, parse);
+    const destination = this.getData(this.lastMove.fromStatus, parse);
+    transferArrayItem(source,destination,this.lastMove.toIndex,this.lastMove.fromIndex,);
+    const movedTask = destination[this.lastMove.fromIndex];
+    if (movedTask) {
+      movedTask.status = this.lastMove.fromStatus as | 'todo' | 'inProgress' | 'completed'}
+    this.taskService.saveData(parse);
+    this.redoMove = this.lastMove;
+    this.lastMove = { id: 0, fromStatus: '', toStatus: '', fromIndex: 0, toIndex: 0 };
+
   }
 
   redoClick() {
-    if (this.redoStatus == '') return;
-    if (this.originalIndex !== -1) {
-      let data = this.tasks[this.originalIndex];
-      this.tasks[this.originalIndex] = this.tasks[this.targetIndex];
-      this.tasks[this.targetIndex] = data;
+    if(this.redoMove.id==0) return;
+    const parse = JSON.parse(localStorage.getItem('masterArray') || '{}');
+    const source = this.getData(this.redoMove.fromStatus, parse);
+    const destination = this.getData(this.redoMove.toStatus, parse);
+    transferArrayItem(source,destination,this.redoMove.fromIndex,this.redoMove.toIndex,);
+
+    const movedTask = destination.find(
+      (task: Task) => task.id === this.redoMove.id,
+    );
+
+    if (movedTask) {
+      movedTask.status = this.redoMove.toStatus as | 'todo' | 'inProgress'| 'completed';
     }
-    this.task.status = this.redoStatus as 'todo' | 'inProgress' | 'completed';
-    this.taskService.updateTask(this.task);
-    this.redoStatus = '';
+    this.redoMove = { id: 0, fromStatus: '', toStatus: '', fromIndex: 0, toIndex: 0 };
+    this.taskService.saveData(parse);
   }
 }

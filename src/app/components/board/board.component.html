@@ -9,7 +9,7 @@
 
 
 <div class="board">
-    <div class="column" cdkDropList #todoList="cdkDropList" (cdkDropListDropped)="drop($event,'todo')"
+    <div class="column" id="todo" cdkDropList #todoList="cdkDropList" (cdkDropListDropped)="drop($event,'todo')"
         [cdkDropListData]="todoTasks" [cdkDropListConnectedTo]="[inProgessList,completeList]">
         <h2>Todo</h2>
         <mat-card *ngFor="let task of todoTasks" cdkDrag>
@@ -24,7 +24,7 @@
         </mat-card>
     </div>
 
-    <div class="column" cdkDropList #inProgessList="cdkDropList" (cdkDropListDropped)="drop($event,'inProgress')"
+    <div class="column" id="inProgress" cdkDropList #inProgessList="cdkDropList" (cdkDropListDropped)="drop($event,'inProgress')"
         [cdkDropListData]="inProgressTask" [cdkDropListConnectedTo]="[todoList,completeList]">
         <h2>In Progress</h2>
         <mat-card *ngFor="let task of inProgressTask" cdkDrag>
@@ -38,7 +38,7 @@
             </div>
         </mat-card>
     </div>
-    <div class="column" cdkDropList #completeList="cdkDropList" (cdkDropListDropped)="drop($event,'completed')"
+    <div class="column" cdkDropList id="completed" #completeList="cdkDropList" (cdkDropListDropped)="drop($event,'completed')"
         [cdkDropListData]="completeTasks" [cdkDropListConnectedTo]="[todoList,inProgessList]">
         <h2>Completed</h2>
         <mat-card *ngFor="let task of completeTasks" cdkDrag>
