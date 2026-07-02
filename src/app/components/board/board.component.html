@@ -19,7 +19,7 @@
             <p>{{task.description}}</p>
             <div class="flex">
                 <p class="todoStatus">{{task.status | capitalize}}</p>
-                <p>Date - {{task.date | date:'mediumTime'}}</p>
+                <p>Time - {{task.date | date:'mediumTime'}} - {{newDate}}</p>
             </div>
         </mat-card>
     </div>
@@ -34,7 +34,7 @@
             <p>{{task.description}}</p>
             <div class="flex">
                 <p class="progressStatus">{{task.status | capitalize}}</p>
-                <p>Date - {{task.date | date:'mediumTime'}}</p>
+                <p>Time - {{task.date | date:'mediumTime'}}</p>
             </div>
         </mat-card>
     </div>
@@ -48,7 +48,7 @@
             <p>{{task.description}}</p>
             <div class="flex">
                 <p class="completeStatus">{{task.status | capitalize}}</p>
-                <p>Date - {{task.date | date:'mediumTime'}}</p>
+                <p>Time - {{task.date | date:'mediumTime'}}</p>
             </div>
         </mat-card>
     </div>

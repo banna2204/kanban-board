@@ -21,33 +21,24 @@ export class BoardComponent implements OnInit {
   completeTasks: Task[] = [];
   latestOrder: number = -1;
   latestStatus: string = '';
-  task: Task = {
-    id: 0,
-    title: '',
-    description: '',
-    date: Date.now(),
-    status: '' as 'todo' | 'inProgress' | 'completed',
-  };
+  task: Task = { id: 0, title: '', description: '', date: Date.now(), status: '' as 'todo' | 'inProgress' | 'completed', };
   targetIndex: number = -1;
   originalIndex: number = -1;
   redoStatus: string = '';
+  newDate = new Date().toLocaleDateString()
 
   constructor(
     private dialog: MatDialog,
     private taskService: TaskService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.taskService.tasks.subscribe((tasks) => {
-      this.tasks = tasks;
-      this.todoTasks = this.tasks.filter((task) => task.status === 'todo');
-      this.inProgressTask = this.tasks.filter(
-        (task) => task.status === 'inProgress',
-      );
-      this.completeTasks = this.tasks.filter(
-        (task) => task.status === 'completed',
-      );
+    this.taskService.tasks.subscribe((tasks: any) => {
+      this.todoTasks = tasks.todo
     });
+    // this.todoTasks = this.tasks.filter((task) => task.status === 'todo');
+    // this.inProgressTask = this.tasks.filter((task) => task.status === 'inProgress',);
+    // this.completeTasks = this.tasks.filter((task) => task.status === 'completed',);
   }
 
   openDialog() {
@@ -63,50 +54,48 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  drop(event: CdkDragDrop<Task[]>, status: string) {
-    if (event.previousContainer === event.container) {
-      let currTask = event.container.data;
-      let movedtask = currTask[event.previousIndex];
-      this.latestStatus = movedtask.status;
-      this.originalIndex = this.tasks.findIndex(
-        (task) => task.id == movedtask.id,
-      );
-      let neighbore = currTask[event.currentIndex];
-      if (neighbore) {
-        this.targetIndex = this.tasks.findIndex(
-          (item) => item.id === neighbore.id,
-        );
-      } else {
-        this.targetIndex = this.tasks.length;
-      }
-      moveItemInArray(this.tasks, this.originalIndex, this.targetIndex);
-      this.taskService.saveData(this.tasks);
+  // getNeighboreTask(event: CdkDragDrop<Task[]>) {
+  //   let neighbore = event.container.data[event.currentIndex];
+  //   if (neighbore) {
+  //     this.targetIndex = this.tasks.findIndex((item) => item.id === neighbore.id);
+  //   } else {
+  //     this.targetIndex = this.tasks.length;
+  //   }
+  //   return this.targetIndex;
+  // }
+
+  // movedTask(event: CdkDragDrop<Task[]>) {
+  //   let movedtask = event.container.data[event.previousIndex];
+  //   this.latestStatus = movedtask.status;
+  //   this.originalIndex = this.tasks.findIndex((task) => task.id == movedtask.id,);
+  //   return this.originalIndex;
+  // }
+
+  getData(status:string){
+    let data;
+    const parse = JSON.parse(localStorage.getItem('masterArray') || '[[]]');
+    if (status == 'todo') data = parse.todo;
+      else if (status == 'completed') data = parse.completed;
+      else if (status == 'inProgress') data = parse.inProgress;
+      console.log(data)
+      return {data,parse};
+    }
+    
+    drop(event: CdkDragDrop<Task[]>, status: string) {
+      if (event.previousContainer === event.container) {
+      this.latestStatus = event.container.data[event.previousIndex].status
+      let data = this.getData(status);
+      moveItemInArray(data.data, event.previousIndex, event.currentIndex);
+      this.taskService.saveData(data.parse);
     } else {
-      transferArrayItem(event.previousContainer.data,event.container.data,event.previousIndex,event.currentIndex,
-      );
-
-      const movedTask = event.container.data[event.currentIndex];
-      this.latestStatus = movedTask.status
-      const fromIndex = this.tasks.findIndex((t) => t.id === movedTask.id);
-      let targetIndex = 0;
-
-      if (event.currentIndex === event.container.data.length - 1) {
-        const previousTask = event.container.data[event.currentIndex - 1];
-
-        if (previousTask) {
-          targetIndex =
-            this.tasks.findIndex((t) => t.id === previousTask.id) + 1;
-        } else {
-          targetIndex = 0;
-        }
-      } else {
-        const nextTask = event.container.data[event.currentIndex + 1];
-        targetIndex = this.tasks.findIndex((t) => t.id === nextTask.id);
-      }
-      moveItemInArray(this.tasks, fromIndex, targetIndex);
-      movedTask.status = status as 'todo' | 'inProgress' | 'completed';
-      movedTask.date = Date.now();
-      this.taskService.saveData(this.tasks);
+      let data = this.getData(status);
+      console.log(data.data)
+      transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex,);
+      // this.task = event.container.data[event.currentIndex];
+      // this.latestStatus = this.task.status
+      // this.task.status = status as 'todo' | 'inProgress' | 'completed';
+      // this.task.date = Date.now();
+      // this.taskService.saveData(this.tasks);
     }
     this.task = event.container.data[event.currentIndex];
   }

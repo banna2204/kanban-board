@@ -88,7 +88,7 @@ export class AddTaskComponent {
     this.dialogRef.close();
     return;
   }
-  const hasValue = !!title || !!description;
+  const hasValue = title || description;
   if (hasValue) {
     const userConfirm = confirm(
       'Are you sure you want to cancel?'
