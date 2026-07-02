@@ -74,17 +74,30 @@ export class AddTaskComponent {
   }
 
   cancelTask() {
-    let title = this.taskForm.get('title')?.value;
-    let desc = this.taskForm.get('description')?.value;
-    if(this.data && (this.data?.title !== title || this.data?.description !== desc)){
-      const userconfirm = confirm('are you sure, you want to cancle')
-      if (userconfirm) this.dialogRef.close(); 
+  const title = this.taskForm.get('title')?.value?.trim();
+  const description = this.taskForm.get('description')?.value?.trim();
+  if (this.data) {
+    const isChanged = this.data.title !== title || this.data.description !== description;
+    if (isChanged) {
+      const userConfirm = confirm('Are you sure you want to cancel?');
+      if (userConfirm) {
+        this.dialogRef.close();
+      }
+      return;
     }
-    else if (!this.data && this.taskForm.get('title')?.valid || this.taskForm.get('description')?.valid) {
-      const userconfirm = confirm('are you sure, you want to cancle')
-      if (userconfirm) this.dialogRef.close();
-    } else {
+    this.dialogRef.close();
+    return;
+  }
+  const hasValue = !!title || !!description;
+  if (hasValue) {
+    const userConfirm = confirm(
+      'Are you sure you want to cancel?'
+    );
+    if (userConfirm) {
       this.dialogRef.close();
     }
+    return;
   }
+  this.dialogRef.close();
+}
 }
