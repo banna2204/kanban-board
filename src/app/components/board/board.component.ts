@@ -15,7 +15,6 @@ import {
   styleUrls: ['./board.component.css'],
 })
 export class BoardComponent implements OnInit {
-  tasks: Task[] = [];
   todoTasks: Task[] = [];
   inProgressTask: Task[] = [];
   completeTasks: Task[] = [];
@@ -29,7 +28,7 @@ export class BoardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.taskService.tasks.subscribe((data: any) => {
+    this.taskService.tasks.subscribe((data:any) => {
       this.todoTasks = data.todo;
       this.inProgressTask = data.inProgress;
       this.completeTasks = data.completed;
@@ -49,7 +48,7 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  getData(status: string, parse: any) {
+  getData(status: string, parse:any) {
     switch (status) {
       case 'todo': return parse.todo;
       case 'inProgress': return parse.inProgress;
@@ -69,31 +68,29 @@ export class BoardComponent implements OnInit {
         fromIndex: event.previousIndex,
         toIndex: event.currentIndex,
       };
-      let data = status === 'todo' ? parse.todo : status === 'inProgress' ? parse.inProgress : parse.completed;
+      let data = this.getData(status,parse);
       moveItemInArray(data, event.previousIndex, event.currentIndex);
       this.taskService.saveData(parse);
     } else {
       this.lastMove = {
-        id: event.previousContainer.data[event.previousIndex].id,
+        id: event.previousContainer.data[event.previousIndex]?.id,
         fromStatus: event.previousContainer.data[event.previousIndex].status,
         toStatus: status,
         fromIndex: event.previousIndex,
         toIndex: event.currentIndex,
       };
       const parse = JSON.parse(localStorage.getItem('masterArray') || '{}');
-      const source = event.previousContainer.id === 'todo' ? parse.todo : event.previousContainer.id === 'inProgress' ? parse.inProgress : parse.completed;
-      const destination = status === 'todo' ? parse.todo : status === 'inProgress'
-            ? parse.inProgress : parse.completed;
-9
+      const source = this.getData(event.previousContainer.id,parse); 
+      const destination = this.getData(status,parse);
       transferArrayItem(source,destination,event.previousIndex,event.currentIndex,);
-      destination[event.currentIndex].status = status as | 'todo' | 'inProgress' | 'completed';
+      destination[event.currentIndex]['status'] = status as | 'todo' | 'inProgress' | 'completed';
       destination[event.currentIndex].date = Date.now();
       this.taskService.saveData(parse);
     }
   }
 
   undoClick() {
-    if(this.lastMove.id==0) return;
+    if(this.lastMove.id == 0) return;
     const parse = JSON.parse(localStorage.getItem('masterArray') || '{}');
     const source = this.getData(this.lastMove.toStatus, parse);
     const destination = this.getData(this.lastMove.fromStatus, parse);
@@ -104,20 +101,17 @@ export class BoardComponent implements OnInit {
     this.taskService.saveData(parse);
     this.redoMove = this.lastMove;
     this.lastMove = { id: 0, fromStatus: '', toStatus: '', fromIndex: 0, toIndex: 0 };
-
   }
 
   redoClick() {
-    if(this.redoMove.id==0) return;
+    if(this.redoMove.id == 0) return;
     const parse = JSON.parse(localStorage.getItem('masterArray') || '{}');
     const source = this.getData(this.redoMove.fromStatus, parse);
     const destination = this.getData(this.redoMove.toStatus, parse);
     transferArrayItem(source,destination,this.redoMove.fromIndex,this.redoMove.toIndex,);
-
     const movedTask = destination.find(
       (task: Task) => task.id === this.redoMove.id,
     );
-
     if (movedTask) {
       movedTask.status = this.redoMove.toStatus as | 'todo' | 'inProgress'| 'completed';
     }

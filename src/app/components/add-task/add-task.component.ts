@@ -64,8 +64,8 @@ export class AddTaskComponent {
     else {
       this.taskService.addTask({
         id: Date.now(),
-        title: this.taskForm.value.title!,
-        description: this.taskForm.value.description!,
+        title: this.taskForm.value.title?.trim(),
+        description: this.taskForm.value.description?.trim(),
         status: 'todo',
         date: Date.now(),
       });
@@ -90,12 +90,8 @@ export class AddTaskComponent {
   }
   const hasValue = title || description;
   if (hasValue) {
-    const userConfirm = confirm(
-      'Are you sure you want to cancel?'
-    );
-    if (userConfirm) {
-      this.dialogRef.close();
-    }
+    const userConfirm = confirm('Are you sure you want to cancel?');
+    if (userConfirm) this.dialogRef.close();
     return;
   }
   this.dialogRef.close();

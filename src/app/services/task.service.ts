@@ -37,10 +37,6 @@ export class TaskService {
     let parse = JSON.parse(localStorage.getItem('masterArray') || '[[]]');
     if (task.status === 'todo') {
       parse.todo.push(task);
-    } else if (task.status === 'inProgress') {
-      parse.inProgress.push(task);
-    } else if (task.status === 'completed') {
-      parse.completed.push(task);
     }
     this.saveData(parse);
   }

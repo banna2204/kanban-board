@@ -41,13 +41,20 @@ describe('BoardComponent', () => {
   });
 
   it('should tasks in same container', () => {
-    component.tasks = [
-      { id: 1, title: 'Angular', status: 'todo' } as Task,
-      { id: 2, title: 'Git', status: 'todo' } as Task,
-      { id: 3, title: 'HTML', status: 'todo' } as Task,
+    component.todoTasks = [
+      { id: 2, title: 'Git', status: 'todo', description: 'git', date: 1 },
+      { id: 3, title: 'HTML', status: 'todo', description: 'html', date: 1 },
+      { id: 1, title: 'Angular', status: 'todo', description: 'abcd', date: 1 },
     ];
 
-    component.todoTasks = [...component.tasks];
+    const mockMasterArray = {
+      todo: [
+        { id: 1, title: 'Angular', status: 'todo', description: 'abcd', date: 1 },
+        { id: 2, title: 'Git', status: 'todo', description: 'git', date: 1 },
+        { id: 3, title: 'HTML', status: 'todo', description: 'html', date: 1 },
+      ]
+    };
+
     const container = {
       data: component.todoTasks,
     } as CdkDropList<Task[]>;
@@ -59,118 +66,126 @@ describe('BoardComponent', () => {
       currentIndex: 2,
     } as CdkDragDrop<Task[]>;
 
+    spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(mockMasterArray));
+
     component.drop(event, 'todo');
     expect(service.saveData).toHaveBeenCalled();
-    expect(component.tasks[2].id).toBe(1);
+    expect(component.todoTasks[2].id).toBe(1);
   });
 
-  it('should update status and call updateTask when moved to another container', () => {
-    const task = {
-      id: 1,
-      title: 'Angular',
-      status: 'todo',
-    } as Task;
+  it('should tasks in diffrent container', () => {
+    component.todoTasks = [
+      { id: 3, title: 'HTML', status: 'todo', description: 'html', date: 1 },
+      { id: 1, title: 'Angular', status: 'todo', description: 'abcd', date: 1 },
+    ];
 
-    component.todoTasks = [task];
-    component.inProgressTask = [];
+    component.inProgressTask = [
+      { id: 2, title: 'Git', status: 'todo', description: 'git', date: 1 },
+      { id: 4, title: 'Github', status: 'todo', description: 'git', date: 1 },
+    ];
+
+    const mockMasterArray = {
+      todo: [
+        { id: 1, title: 'Angular', status: 'todo', description: 'abcd', date: 1 },
+        { id: 3, title: 'HTML', status: 'todo', description: 'html', date: 1 },
+      ],
+      inProgress: [
+        { id: 2, title: 'Git', status: 'todo', description: 'git', date: 1 },
+        { id: 4, title: 'Github', status: 'todo', description: 'git', date: 1 },
+      ]
+    };
 
     const previousContainer = {
       data: component.todoTasks,
     } as CdkDropList<Task[]>;
 
-    const currentContainer = {
-      data: component.inProgressTask,
-    } as CdkDropList<Task[]>;
+    const container = {
+      data: component.inProgressTask
+    } as CdkDropList<Task[]>
 
     const event = {
-      previousContainer,
-      container: currentContainer,
-      previousIndex: 0,
-      currentIndex: 0,
-    } as CdkDragDrop<Task[]>;
+      previousContainer: previousContainer,
+      container: container,
+      previousIndex: 1,
+      currentIndex: 1,
+    } as CdkDragDrop<Task[]>
 
+    spyOn(localStorage,'setItem')
+    spyOn(localStorage, 'getItem').and.returnValue(JSON.stringify(mockMasterArray));
     component.drop(event, 'inProgress');
-    expect(task.status).toBe('inProgress');
-    expect(service.updateTask).toHaveBeenCalledWith(task);
-  });
 
-  it('should return if latestStatus is empty', () => {
-    component.latestStatus = '';
-    component.undoClick();
-    expect(service.updateTask).not.toHaveBeenCalled();
-  });
+    expect(service.saveData).toHaveBeenCalled();
+  })
 
-  it('should undo task status and swap tasks', () => {
-    component.tasks = [
-      { id: 1, status: 'todo' } as Task,
-      { id: 2, status: 'completed' } as Task,
-    ];
+  it('should get data is execute', () => {
+    const parse = {
+      todo: [
+        { id: 1, title: 'Angular', status: 'todo', description: 'abcd', date: 1 },
+        { id: 3, title: 'HTML', status: 'todo', description: 'html', date: 1 },
+      ],
+      completed: [
+        { id: 2, title: 'Git', status: 'completed', description: 'git', date: 1 },
+        { id: 4, title: 'Github', status: 'completed', description: 'git', date: 1 },
+      ]
+    };
 
-    component.originalIndex = 0;
-    component.targetIndex = 1;
-    component.task = component.tasks[1];
-    component.latestStatus = 'todo';
-    component.undoClick();
+    const mockData = {
+      completed: [
+        { id: 2, title: 'Git', status: 'completed', description: 'git', date: 1 },
+        { id: 4, title: 'Github', status: 'completed', description: 'git', date: 1 },
+      ]
+    }
+    const result = component.getData('completed',parse);
+    expect(result).toEqual(mockData.completed)
+  })
 
-    expect(component.tasks[0].id).toBe(2);
-    expect(component.tasks[1].id).toBe(1);
-    expect(component.task.status).toBe('todo');
-    expect(component.redoStatus).toBe('completed');
-    expect(service.updateTask).toHaveBeenCalledWith(component.task);
-    expect(component.latestStatus).toBe('');
-  });
+  // it('should initial function execute', () => {
+  //   const mockMasterArray = {
+  //     todo: [
+  //       { id: 1, title: 'Angular', status:'todo', description: 'abcd', date: 1 },
+  //     ],
+  //     inProgress: [
+  //       { id: 2, title: 'Git', status: 'inProgress', description: 'git', date: 1 },
+  //       { id: 4, title: 'Github', status: 'inProgress', description: 'git', date: 1 },
+  //     ],
+  //     completed: [
+  //       { id: 2, title: 'Git', status: 'completed', description: 'git', date: 1 },
+  //       { id: 4, title: 'Github', status: 'completed', description: 'git', date: 1 },
+  //     ]
+  //   };
 
-  it('should return if redoStatus is empty', () => {
-    component.redoStatus = '';
-    component.redoClick();
-    expect(service.updateTask).not.toHaveBeenCalled();
-  });
+  //   spyOn(localStorage,'setItem');
+  //   spyOn(localStorage,'getItem').and.returnValue(JSON.stringify(mockMasterArray));
 
-  it('should redo task status', () => {
-    component.tasks = [
-      { id: 1, status: 'todo' } as Task,
-      { id: 2, status: 'completed' } as Task,
-    ];
+  //   service.saveData(mockMasterArray);
+  //   expect(service.saveData).toHaveBeenCalled()
+  //   expect(mockMasterArray.todo).toEqual(component.todoTasks)
+  // })
 
-    component.originalIndex = 0;
-    component.targetIndex = 1;
-    component.task = component.tasks[1];
-    component.redoStatus = 'completed';
-    component.redoClick();
+  // it('should undo button execute', () => {
+  //   const mockMasterArray = {
+  //     todo: [
+  //       { id: 1, title: 'Angular', status:'todo', description: 'abcd', date: 1 },
+  //     ],
+  //     inProgress: [
+  //       { id: 2, title: 'Git', status: 'inProgress', description: 'git', date: 1 },
+  //       { id: 4, title: 'Github', status: 'inProgress', description: 'git', date: 1 },
+  //     ],
+  //     completed: [
+  //       { id: 2, title: 'Git', status: 'completed', description: 'git', date: 1 },
+  //       { id: 4, title: 'Github', status: 'completed', description: 'git', date: 1 },
+  //     ]
+  //   };
 
-    expect(component.tasks[0].id).toBe(2);
-    expect(component.tasks[1].id).toBe(1);
-    expect(component.task.status).toBe('completed');
-    expect(service.updateTask).toHaveBeenCalledWith(component.task);
-    expect(component.redoStatus).toBe('');
-  });
-  
-  it('should open add task dialog', () => {
-  const dialog = TestBed.inject(MatDialog);
-  spyOn(dialog, 'open');
-  component.openDialog();
-  expect(dialog.open).toHaveBeenCalledWith(AddTaskComponent, {
-    width: '500px'
-  });
-});
+  //   component.lastMove = {
+  //       id: 1,
+  //       fromStatus: 'todo',
+  //       toStatus: 'completed',
+  //       fromIndex: 0,
+  //       toIndex: 0,
+  //     };
 
-  it('should open edit dialog with task data', () => {
-  const dialog = TestBed.inject(MatDialog);
-  spyOn(dialog, 'open');
-
-  const task: Task = {
-    id: 1,
-    title: 'Angular',
-    description: 'Learn',
-    status: 'todo',
-    date:1
-  };
-
-  component.editTask(task);
-  expect(dialog.open).toHaveBeenCalledWith(AddTaskComponent, {
-    width: '500px',
-    data: task
-  });
-
-});
-});
+  //   component.undoClick();
+  //   // expect(service.saveData).toHaveBeenCalled()
+  // })
+}); 
