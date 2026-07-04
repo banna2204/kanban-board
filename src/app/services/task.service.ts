@@ -55,6 +55,15 @@ export class TaskService {
     const updateTask = data.find((task: Task) => task.id === updatedTask.id);
     updateTask.title = updatedTask.title;
     updateTask.description = updatedTask.description;
+    updateTask.priority = updatedTask.priority
+    this.saveData(parse);
+  }
+
+  deleteTask(deleteTask : Task){
+    const parse = JSON.parse(localStorage.getItem('masterArray') || '[[]]');
+    let data =
+    deleteTask.status == 'todo' ? 'todo' : deleteTask.status == 'completed' ? 'completed'  : 'inProgress';
+    parse[data] = parse[data].filter((task:Task) => task.id !== deleteTask.id);
     this.saveData(parse);
   }
 }

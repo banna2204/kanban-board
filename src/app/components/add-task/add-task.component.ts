@@ -31,6 +31,8 @@ function sequenceValidator(validators: ValidatorFn[]): ValidatorFn {
 })
 export class AddTaskComponent {
 
+  priority:string='low'
+
   constructor(
     private dialogRef: MatDialogRef<AddTaskComponent>,
     private taskService: TaskService,
@@ -53,12 +55,14 @@ export class AddTaskComponent {
 
   saveTask() {
     if (this.data) {
+      console.log(this.priority)
       this.taskService.updateTask({
         id: this.data.id,
         title: this.taskForm.value.title!,
         description: this.taskForm.value.description!,
         status: this.data.status,
         date: Date.now(),
+        priority : this.priority as | 'low' | 'medium' | 'high'
       });
     }
     else {
@@ -68,6 +72,7 @@ export class AddTaskComponent {
         description: this.taskForm.value.description?.trim(),
         status: 'todo',
         date: Date.now(),
+        priority : this.priority
       });
     }
     this.dialogRef.close();
@@ -95,5 +100,9 @@ export class AddTaskComponent {
     return;
   }
   this.dialogRef.close();
-}
+  }
+
+  priorityTask(priority:string){
+    this.priority = priority;
+  }
 }

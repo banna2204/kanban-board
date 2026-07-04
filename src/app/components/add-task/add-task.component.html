@@ -20,8 +20,15 @@
     </div>
   </form>
 </div>
-<div mat-dialog-actions>
-  <button mat-raised-button color="warn" (click)="cancelTask()">Cancel</button>
-  <button [disabled]="taskForm.invalid" mat-raised-button color="primary" (click)="saveTask()">{{ data ? 'Update Todo' :
+<div mat-dialog-actions class="btns">
+  <div class="save-btn">
+    <button mat-raised-button color="warn" (click)="cancelTask()">Cancel</button>
+    <button [disabled]="taskForm.invalid" mat-raised-button color="primary" (click)="saveTask()">{{ data ? 'Update Todo' :
     'Add Todo' }}</button>
+  </div>
+  <div class="priority-btn">
+      <button (click)="priorityTask('low')" mat-raised-button color="warn">Low</button>
+      <button (click)="priorityTask('medium')" mat-raised-button color="warn">Medium</button>
+      <button (click)="priorityTask('high')" mat-raised-button color="warn">High</button>
+    </div>
 </div>

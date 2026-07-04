@@ -5,3 +5,25 @@ width:100%;
 form{
     padding-top: 5px;
 }
+
+.priority-btn{
+    display: flex;
+    gap: 4px;
+}
+
+.btns{
+    display: flex;
+    justify-content: space-between;
+}
+
+.save-btn{
+    display: flex;
+    gap: 5px;
+}
+
+@media (max-width : 620px) {
+    .btns{
+        display: flex;
+        gap:10px
+    }
+}
