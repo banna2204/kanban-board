@@ -7,8 +7,8 @@
     <button mat-raised-button color="primary" (click)="openDialog()">+ Add Todo</button>
 </div>
 <div class="undoRedo">
-    <div (click)="undoClick()" class="undo"><img width="24" height="24" src="https://img.icons8.com/glyph-neue/64/undo.png" alt="undo"/></div>
-    <div (click)="redoClick()" class="undo"><img width="24" height="24" src="https://img.icons8.com/glyph-neue/64/redo.png" alt="redo"/></div>
+    <div (click)="undoClick()" class="undo"><img width="20" height="20" src="https://img.icons8.com/glyph-neue/64/undo.png" alt="undo"/></div>
+    <div (click)="redoClick()" class="undo"><img width="20" height="20" src="https://img.icons8.com/glyph-neue/64/redo.png" alt="redo"/></div>
 </div>
 
 <div class="board">
@@ -28,8 +28,8 @@
                 <h3 >{{task.title}}</h3>
                 <p>{{task.description}}</p>
                 <div class="flex">
-                    <p class="todoStatus">{{task.priority| capitalize}}</p>
-                    <p>Time - {{task.date | date:'mediumTime'}} - {{newDate}}</p>
+                    <p [ngClass]="task.priority == 'high' ? 'high': task.priority == 'low' ? 'low' : 'medium'">{{task.priority| capitalize}}</p>
+                    <p class="time">Time - {{task.date | date:'mediumTime'}} &nbsp;  {{ newDate}}</p>
                 </div>
             </mat-card>
         </div>
@@ -51,8 +51,8 @@
                 <h3>{{task.title}}</h3>
                 <p>{{task.description}}</p>
                 <div class="flex">
-                    <p class="progressStatus">{{task.priority | capitalize}}</p>
-                    <p>Time - {{task.date | date:'mediumTime'}}</p>
+                    <p [ngClass]="task.priority == 'high' ? 'high': task.priority == 'low' ? 'low' : 'medium'">{{task.priority| capitalize}}</p>
+                    <p class="time">Time - {{task.date | date:'mediumTime'}} &nbsp;  {{ newDate}}</p>
                 </div>
             </mat-card>
         </div>
@@ -73,8 +73,8 @@
                 <h3>{{task.title}}</h3>
                 <p>{{task.description}}</p>
                 <div class="flex">
-                    <p class="completeStatus">{{task.priority | capitalize}}</p>
-                    <p>Time - {{task.date | date:'mediumTime'}}</p>
+                    <p [ngClass]="task.priority == 'high' ? 'high': task.priority == 'low' ? 'low' : 'medium'">{{task.priority| capitalize}}</p>
+                    <p class="time">Time - {{task.date | date:'mediumTime'}} &nbsp;  {{ newDate}}</p>
                 </div>
             </mat-card>
         </div>

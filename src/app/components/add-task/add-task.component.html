@@ -1,34 +1,39 @@
-<h2 mat-dialog-title>{{ data ? 'Edit Todo' : 'Add Todo' }}</h2>
-<div mat-dialog-content>
-  <form [formGroup]="taskForm">
-    <mat-form-field appearance="outline">
-      <mat-label>Title</mat-label>
-      <input matInput formControlName="title">
-    </mat-form-field>
-    <div *ngIf="taskForm.get('title')?.touched && taskForm.get('title')?.invalid">
-      <mat-error *ngIf="taskForm.get('title')?.errors?.['required']">Title is required</mat-error>
-      <mat-error *ngIf="taskForm.get('title')?.errors?.['trimm']">Title is required</mat-error>
-    </div>
-    <br>
-    <mat-form-field appearance="outline">
-      <mat-label>Description</mat-label>
-      <textarea rows="4" matInput formControlName="description"></textarea>
-    </mat-form-field>
-    <div *ngIf="taskForm.get('description')?.touched && taskForm.get('description')?.invalid">
-      <mat-error *ngIf="taskForm.get('description')?.errors?.['required']">Description is required</mat-error>
-      <mat-error *ngIf="taskForm.get('description')?.errors?.['trimm']">Description is required</mat-error>
-    </div>
-  </form>
-</div>
-<div mat-dialog-actions class="btns">
-  <div class="save-btn">
-    <button mat-raised-button color="warn" (click)="cancelTask()">Cancel</button>
-    <button [disabled]="taskForm.invalid" mat-raised-button color="primary" (click)="saveTask()">{{ data ? 'Update Todo' :
-    'Add Todo' }}</button>
+<div class="main">
+  <h2 mat-dialog-title>{{ data ? 'Edit Todo' : 'Add Todo' }}</h2>
+  <div mat-dialog-content>
+    <form [formGroup]="taskForm">
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title">
+      </mat-form-field>
+      <div *ngIf="taskForm.get('title')?.touched && taskForm.get('title')?.invalid">
+        <mat-error *ngIf="taskForm.get('title')?.errors?.['required']">Title is required</mat-error>
+        <mat-error *ngIf="taskForm.get('title')?.errors?.['trimm']">Title is required</mat-error>
+      </div>
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea rows="4" matInput formControlName="description"></textarea>
+      </mat-form-field>
+      <div *ngIf="taskForm.get('description')?.touched && taskForm.get('description')?.invalid">
+        <mat-error *ngIf="taskForm.get('description')?.errors?.['required']">Description is required</mat-error>
+        <mat-error *ngIf="taskForm.get('description')?.errors?.['trimm']">Description is required</mat-error>
+      </div>
+    </form>
   </div>
-  <div class="priority-btn">
-      <button (click)="priorityTask('low')" mat-raised-button color="warn">Low</button>
-      <button (click)="priorityTask('medium')" mat-raised-button color="warn">Medium</button>
-      <button (click)="priorityTask('high')" mat-raised-button color="warn">High</button>
+  <div mat-dialog-actions class="btns">
+    <div class="save-btn">
+      <button mat-raised-button color="warn" (click)="cancelTask()">Cancel</button>
+      <button [disabled]="taskForm.invalid" mat-raised-button color="primary" (click)="saveTask()">{{ data ? 'Update Todo' :
+       'Add Todo' }}</button>
     </div>
-</div>
+
+    <mat-form-field appearance="outline" class="dropdown">
+      <mat-label>Priority</mat-label>
+      <mat-select [(ngModel)]="priority">
+        <mat-option value="high">High</mat-option>
+        <mat-option value="medium">Medium</mat-option>
+        <mat-option value="low">Low</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>

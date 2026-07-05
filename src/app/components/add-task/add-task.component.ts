@@ -48,14 +48,13 @@ export class AddTaskComponent {
     if (this.data) {
       this.taskForm.patchValue({
         title: this.data.title,
-        description: this.data.description
+        description: this.data.description,
       });
     }
   }
 
   saveTask() {
     if (this.data) {
-      console.log(this.priority)
       this.taskService.updateTask({
         id: this.data.id,
         title: this.taskForm.value.title!,
