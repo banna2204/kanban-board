@@ -5,10 +5,11 @@ import { BoardComponent } from './components/board/board.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CdkDropList } from '@angular/cdk/drag-drop';
+import { MatSelectModule } from '@angular/material/select';
 
 describe('AppComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({
-    imports: [RouterTestingModule,MatDialogModule,MatFormFieldModule,CdkDropList],
+    imports: [RouterTestingModule,MatDialogModule,MatFormFieldModule,CdkDropList,MatSelectModule],
     declarations: [AppComponent,BoardComponent,]
   }));
 

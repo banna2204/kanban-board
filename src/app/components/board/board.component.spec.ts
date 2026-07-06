@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { CapitalizePipe } from 'src/app/capitalize.pipe';
+import { MatSelectModule } from '@angular/material/select';
 
 describe('BoardComponent', () => {
   let component: BoardComponent;
@@ -24,7 +25,7 @@ describe('BoardComponent', () => {
   beforeEach(() => {
     localStorage.clear()
     TestBed.configureTestingModule({
-      imports: [DragDropModule, MatDialogModule, MatFormFieldModule,MatInputModule,BrowserAnimationsModule,MatIconModule],
+      imports: [DragDropModule, MatDialogModule, MatFormFieldModule,MatInputModule,MatSelectModule,BrowserAnimationsModule,MatIconModule],
       declarations: [BoardComponent,CapitalizePipe],
       providers: [ { provide: MatDialog, useValue: dialogSpy },TaskService],
     });
@@ -234,7 +235,7 @@ describe('BoardComponent', () => {
   it('should get inputdata to filter array',()=> {
     component.todoTasks =  [
       {id: 1,title: 'c',status: 'todo',description: 'abcd',date: 1,priority: 'low',},
-      {id: 2,title: 'HTML',status: 'todo',description: 'html',date: 1,priority: 'high',},
+      {id: 2,title: 'ng',status: 'todo',description: 'html',date: 1,priority: 'high',},
     ]
     component.inProgressTask =  [
       {id: 3,title: 'Angular',status: 'todo',description: 'abcd',date: 1,priority: 'low',},
@@ -248,11 +249,32 @@ describe('BoardComponent', () => {
 
     const event = {
       target : {
-        value : 'high'
+        value : 'ng'
       } 
     } as unknown as Event;
 
     component.onInput(event);
+    expect(component.filterTodoTasks.length).toEqual(1)
+    expect(component.filterInProgressTask.length).toEqual(2)
+    expect(component.filterCompleteTasks.length).toEqual(0)
+  })
+
+  it('should filter data using priority', () => {
+    component.todoTasks =  [
+      {id: 1,title: 'c',status: 'todo',description: 'abcd',date: 1,priority: 'low',},
+      {id: 2,title: 'ng',status: 'todo',description: 'html',date: 1,priority: 'high',},
+    ]
+    component.inProgressTask =  [
+      {id: 3,title: 'Angular',status: 'todo',description: 'abcd',date: 1,priority: 'low',},
+      {id: 4,title: 'ng',status: 'todo',description: 'html',date: 1,priority: 'high',},
+    ]
+    component.completeTasks =  [
+      {id: 5,title: 'py',status: 'todo',description: 'abcd',date: 1,priority: 'low',},
+      {id: 6,title: 'HTML',status: 'todo',description: 'html',date: 1,priority: 'high',},
+      {id: 7,title: 'js',status: 'todo',description: 'html',date: 1,priority: 'high',},
+    ]    
+    
+    component.getFilterData('high');
     expect(component.filterTodoTasks.length).toEqual(1)
     expect(component.filterInProgressTask.length).toEqual(1)
     expect(component.filterCompleteTasks.length).toEqual(2)

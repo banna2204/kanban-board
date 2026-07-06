@@ -1,0 +1,44 @@
+.register-form{
+    min-height: 100vh;
+}
+form{
+    margin-top: -10px;
+}
+
+.get-started{
+    font-size:26px;
+    font-weight: bolder;
+    margin-bottom: 30px;
+}
+
+.mat-error{
+    margin-top: -15px;
+}
+mat-form-field{
+    width: 40vw;
+}
+.submit-btn{
+    width: 100%;
+}
+
+.radio{
+    align-self: self-start;
+    margin-top: -5px;
+}
+.agree{
+    padding-top: 15px;
+}
+.submit-btn{
+    width: 100%;
+}
+.have-account{
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 25px;
+}
+.have-account a{
+    color: blue;
+}
+:host .rounded-form-field {
+  --mdc-outlined-text-field-container-shape: 32px !important;
+}

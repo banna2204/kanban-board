@@ -1,0 +1,44 @@
+.login-form{
+    min-height: 100vh;
+}
+form{
+    margin-top: -10px;
+}
+
+.welcome-back{
+    font-size:26px;
+    font-weight: bolder;
+    margin-bottom: 15px;
+}
+.enter-credential{
+    margin-bottom:50px ;
+}
+
+.mat-error{
+    margin-top: -15px;
+}
+mat-form-field{
+    width: 40vw;
+}
+.forget-password{
+    color: blue;
+}
+.radio{
+    align-self: self-start;
+    margin-top: -5px;
+}
+.agree{
+    padding-top: 15px;
+}
+.submit-btn{
+    width: 100%;
+}
+.sign-in-other-way{
+    width: 40vw;
+}
+::ng-deep mat-form-field {
+
+    .mdc-text-field--outlined {
+      --mdc-outlined-text-field-container-shape: 32px !important;
+    }
+} 

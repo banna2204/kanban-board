@@ -2,3 +2,66 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.flex{
+    display: flex;
+}
+.justify-center {
+    justify-content: center;
+}
+.justify-between{
+    justify-content: space-between;
+}
+.align-center{
+    align-items: center;
+}
+.direction-column{
+    flex-direction: column;
+}
+.gap{
+    gap: 5px;
+}
+
+.margin-top{
+    margin-top: 10px;
+}
+.margin-top-20{
+    margin-top: 40px;
+}
+.account{
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 25px;
+}
+
+.account a{
+    color: blue;
+}
+.line{
+    width: 50vw;
+    height: 1px;
+    background-color: rgb(182, 180, 180,0.5);
+    margin-top: 15px;
+}
+
+.sign-in-other-way{
+    width: 40vw;
+}
+.border{
+    border: 1px solid rgb(175, 171, 171,0.7);
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+.label{
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 3px;
+}
+
+html {
+  --mdc-outlined-text-field-container-shape: 32px !important;
+}
+
+:host .rounded-form-field {
+  --mdc-outlined-text-field-container-shape: 32px !important;
+}

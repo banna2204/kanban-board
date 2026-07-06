@@ -83,7 +83,7 @@ mat-card {
 }
 
 .input{
-  width: 500px;
+  width: 300px;
 }
 .action-btn{
   display: flex;
@@ -95,9 +95,15 @@ mat-card {
   font-size: 12px;
 }
 
+.active{
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+
 @media (max-width : 950px) {
   .input{
-    width: 300px;
+    width: 200px;
   }
   .board {
   display: flex;
@@ -108,6 +114,14 @@ mat-card {
   .column{
   min-height: 100px;
   }
+}
+.dropDown-btn{
+  font-size: small;
+  padding: 5px 8px;
+  border: none; 
+  border-radius: 5px;
+  background-color: rgb(101, 101, 249);
+  color: white;
 }
 
 @media (min-width : 700px ) and (max-width : 950px){
@@ -121,18 +135,21 @@ mat-card {
 
 @media (max-width : 700px) {
   .input{
-    width: 200px;
+    width: 150px;
   }
 }
 
 @media (max-width : 700px) {
   .input{
-    width: 150px;
+    display: none;
   }
 }
 
-@media (max-width : 500px) {
-  .input{
+@media (max-width : 500px){
+  .dropDown{
+    display: none;
+  }
+  .dropDown-btn{
     display: none;
   }
 }

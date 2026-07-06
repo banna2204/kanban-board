@@ -23,7 +23,10 @@ export class BoardComponent implements OnInit {
   filterCompleteTasks: Task[] = [];
   lastMove = { id: 0, fromStatus: '', toStatus: '', fromIndex: 0, toIndex: 0 };
   redoMove = { id: 0, fromStatus: '', toStatus: '', fromIndex: 0, toIndex: 0 };
+  lastMoveShow : boolean = true;
+  redoMoveShow : boolean = true;
   newDate = new Date().toLocaleDateString();
+  inputData : string = ''
 
   constructor(
     private dialog: MatDialog,
@@ -92,6 +95,7 @@ export class BoardComponent implements OnInit {
       destination[event.currentIndex].date = Date.now();
     }
     this.taskService.saveData(parse);
+    this.lastMoveShow = false;
   }
 
   undoClick() {
@@ -106,6 +110,8 @@ export class BoardComponent implements OnInit {
     this.taskService.saveData(parse);
     this.redoMove = this.lastMove;
     this.lastMove = { id: 0, fromStatus: '', toStatus: '', fromIndex: 0, toIndex: 0 };
+    this.lastMoveShow = true;
+    this.redoMoveShow = false;
   }
 
   redoClick() {
@@ -118,13 +124,25 @@ export class BoardComponent implements OnInit {
     if (movedTask) movedTask.status = this.redoMove.toStatus as | 'todo' | 'inProgress'| 'completed'; 
     this.redoMove = { id: 0, fromStatus: '', toStatus: '', fromIndex: 0, toIndex: 0 };
     this.taskService.saveData(parse);
+    this.redoMoveShow = true;
   }
 
   onInput(event:Event){
-    let inputData = (event.target as HTMLInputElement).value.trim().toLowerCase()
-    this.filterTodoTasks = this.todoTasks.filter((task:Task)=> task.priority.includes
-    (inputData) || task.title.includes(inputData));
-    this.filterInProgressTask = this.inProgressTask.filter((task:Task)=> task.priority.includes(inputData) || task.title.includes(inputData));
-    this.filterCompleteTasks = this.completeTasks.filter((task:Task)=> task.priority.includes(inputData) || task.title.includes(inputData));
+    this.inputData = (event.target as HTMLInputElement).value.trim().toLowerCase()
+    this.filterTodoTasks = this.todoTasks.filter((task:Task)=> task.title.includes(this.inputData));
+    this.filterInProgressTask = this.inProgressTask.filter((task:Task)=>task.title.includes(this.inputData));
+    this.filterCompleteTasks = this.completeTasks.filter((task:Task)=>task.title.includes(this.inputData));
+  }
+
+  getFilterData(data:string){
+    if(this.inputData){
+      this.filterTodoTasks = this.filterTodoTasks.filter((task:Task)=>task.priority.includes(data));
+      this.filterInProgressTask = this.filterInProgressTask.filter((task:Task)=> task.priority.includes(data)) 
+      this.filterCompleteTasks = this.filterCompleteTasks.filter((task:Task)=> task.priority.includes(data)) 
+    }else{
+      this.filterTodoTasks = this.todoTasks.filter((task:Task)=>task.priority.includes(data));
+      this.filterInProgressTask = this.inProgressTask.filter((task:Task)=> task.priority.includes(data)) 
+      this.filterCompleteTasks = this.completeTasks.filter((task:Task)=> task.priority.includes(data)) 
+    }
   }
 }

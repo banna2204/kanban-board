@@ -4,11 +4,22 @@
       <mat-label>Filter Tasks</mat-label>
       <input matInput (input)="onInput($event)">
     </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dropdown" class="dropDown">
+      <mat-label>Priority</mat-label>
+      <mat-select  #dropDownData>
+        <mat-option value="high">High</mat-option>
+        <mat-option value="medium">Medium</mat-option>
+        <mat-option value="low">Low</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button class="dropDown-btn" (click)="getFilterData(dropDownData.value)">Filter</button>
+
     <button mat-raised-button color="primary" (click)="openDialog()">+ Add Todo</button>
 </div>
-<div class="undoRedo">
-    <div (click)="undoClick()" class="undo"><img width="20" height="20" src="https://img.icons8.com/glyph-neue/64/undo.png" alt="undo"/></div>
-    <div (click)="redoClick()" class="undo"><img width="20" height="20" src="https://img.icons8.com/glyph-neue/64/redo.png" alt="redo"/></div>
+<div class="undoRedo" >
+    <div [ngClass]="{'active' : lastMoveShow,}" (click)="undoClick()" class="undo"><img width="20" height="20" src="https://img.icons8.com/glyph-neue/64/undo.png" alt="undo"/></div>
+    <div [ngClass]="{'active' : redoMoveShow,}" (click)="redoClick()" class="undo"><img width="20" height="20" src="https://img.icons8.com/glyph-neue/64/redo.png" alt="redo"/></div>
 </div>
 
 <div class="board">
@@ -29,7 +40,7 @@
                 <p>{{task.description}}</p>
                 <div class="flex">
                     <p [ngClass]="task.priority == 'high' ? 'high': task.priority == 'low' ? 'low' : 'medium'">{{task.priority| capitalize}}</p>
-                    <p class="time">Time - {{task.date | date:'mediumTime'}} &nbsp;  {{ newDate}}</p>
+                    <p class="time">Time - {{task.date | date:'mediumTime'}}</p>
                 </div>
             </mat-card>
         </div>
@@ -52,7 +63,7 @@
                 <p>{{task.description}}</p>
                 <div class="flex">
                     <p [ngClass]="task.priority == 'high' ? 'high': task.priority == 'low' ? 'low' : 'medium'">{{task.priority| capitalize}}</p>
-                    <p class="time">Time - {{task.date | date:'mediumTime'}} &nbsp;  {{ newDate}}</p>
+                    <p class="time">Time - {{task.date | date:'mediumTime'}} </p>
                 </div>
             </mat-card>
         </div>
@@ -74,7 +85,7 @@
                 <p>{{task.description}}</p>
                 <div class="flex">
                     <p [ngClass]="task.priority == 'high' ? 'high': task.priority == 'low' ? 'low' : 'medium'">{{task.priority| capitalize}}</p>
-                    <p class="time">Time - {{task.date | date:'mediumTime'}} &nbsp;  {{ newDate}}</p>
+                    <p class="time">Time - {{task.date | date:'mediumTime'}} </p>
                 </div>
             </mat-card>
         </div>

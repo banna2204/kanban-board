@@ -46,7 +46,7 @@ export class TaskService {
     this.tasksSubject.next(parse);
   }
 
-  updateTask(updatedTask: Task) {
+  updateTask(updatedTask: any) {
     const parse = JSON.parse(localStorage.getItem('masterArray') || '[[]]');
     let data;
     updatedTask.status == 'todo' ? data = parse.todo :
@@ -59,7 +59,7 @@ export class TaskService {
     this.saveData(parse);
   }
 
-  deleteTask(deleteTask : Task){
+  deleteTask(deleteTask : any){
     const parse = JSON.parse(localStorage.getItem('masterArray') || '[[]]');
     let data =
     deleteTask.status == 'todo' ? 'todo' : deleteTask.status == 'completed' ? 'completed'  : 'inProgress';

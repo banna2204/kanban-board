@@ -1,0 +1,43 @@
+<div class="register-form flex justify-center align-center direction-column">
+    <div class="get-started">Get Started Now</div>
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+        <div class="flex direction-column margin-top">
+            <label class="label">Name</label>
+            <mat-form-field appearance="outline" class="rounded-form-field">
+                <input  matInput formControlName="name">
+            </mat-form-field>
+        </div>
+        <div *ngIf="registrationForm.get('name')?.touched && registrationForm.get('name')?.invalid">
+            <mat-error class="mat-error" *ngIf="registrationForm.get('name')?.errors?.['required']">Name is required</mat-error>
+        </div>
+        <div class="flex direction-column margin-top">
+            <label class="label">Email</label>
+            <mat-form-field appearance="outline" class="rounded-form-field">
+                <input  matInput formControlName="email">
+            </mat-form-field>
+        </div>
+        <div *ngIf="registrationForm.get('email')?.touched && registrationForm.get('email')?.invalid">
+            <mat-error class="mat-error"  *ngIf="registrationForm.get('email')?.errors?.['required']">Email is required</mat-error>
+        </div>
+         <div class="flex direction-column margin-top">
+            <label class="label">Password</label>
+            <mat-form-field appearance="outline" class="rounded-form-field">
+                <input  matInput formControlName="password" >
+            </mat-form-field>
+        </div>
+        <div *ngIf="registrationForm.get('password')?.touched && registrationForm.get('password')?.invalid">
+            <mat-error class="mat-error" *ngIf="registrationForm.get('password')?.errors?.['required']">Password is required</mat-error>
+        </div>
+        <div class="flex gap radio">
+            <input type="radio"/>
+            <p class="agree">I agree to the term and policy</p>
+        </div>
+        <button [disabled]="registrationForm.invalid" mat-raised-button color="primary" class="margin-top submit-btn">Sign Up</button>
+    </form>
+    <div class="line"></div>
+    <div class="flex justify-between margin-top-20 sign-in-other-way">
+        <div class="border flex align-center gap"><img width="15" src="https://images.icon-icons.com/729/PNG/96/google_icon-icons.com_62736.png" alt=""> Sign in with google</div>
+        <div class="border flex align-center gap"><img width="15" src="https://images.icon-icons.com/1/PNG/96/social_apple_mac_65.png" alt=""> Sign in with apple</div>
+    </div>
+    <div class="flex gap account">Have an account? <a [routerLink]="['/login']">Sign in</a></div>
+</div> 
