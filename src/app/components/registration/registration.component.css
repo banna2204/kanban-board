@@ -8,7 +8,7 @@ form{
 .get-started{
     font-size:26px;
     font-weight: bolder;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .mat-error{
@@ -30,6 +30,8 @@ mat-form-field{
 }
 .submit-btn{
     width: 100%;
+    border-radius: 40px;
+    padding: 25px 0;
 }
 .have-account{
     font-size: 14px;
@@ -42,3 +44,10 @@ mat-form-field{
 :host .rounded-form-field {
   --mdc-outlined-text-field-container-shape: 32px !important;
 }
+::ng-deep mat-form-field {
+
+    .mdc-text-field--outlined {
+      --mdc-outlined-text-field-container-shape: 32px !important;
+    --mdc-outlined-text-field-focus-outline-width: 2px;
+    }
+} 

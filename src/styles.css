@@ -21,6 +21,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .gap{
     gap: 5px;
 }
+.content{
+    width: 39%;
+    position: relative;
+}
 
 .margin-top{
     margin-top: 10px;
@@ -32,16 +36,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     font-size: 14px;
     font-weight: 500;
     margin-top: 25px;
+    width: 100%;
+    position: absolute;
+    left: 35%;
 }
 
 .account a{
     color: blue;
 }
 .line{
-    width: 50vw;
+    width: 39vw;
     height: 1px;
     background-color: rgb(182, 180, 180,0.5);
-    margin-top: 15px;
+    margin-top: 25px;
 }
 
 .sign-in-other-way{
@@ -56,12 +63,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     font-size: 16px;
     font-weight: 400;
     margin-bottom: 3px;
+    margin-left: 15px;
 }
 
-html {
-  --mdc-outlined-text-field-container-shape: 32px !important;
-}
-
-:host .rounded-form-field {
-  --mdc-outlined-text-field-container-shape: 32px !important;
-}
