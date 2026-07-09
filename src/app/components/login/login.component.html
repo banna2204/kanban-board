@@ -4,17 +4,15 @@
             <div class="welcome-back margin-top-20">Welcome Back!</div>
             <p class="enter-credential">Enter your Credentials to access your account</p>
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                <div *ngIf="loginForm.get('name')?.touched && loginForm.get('name')?.invalid">
-                    <mat-error class="mat-error" *ngIf="loginForm.get('name')?.errors?.['required']">Name is required</mat-error>
-                </div>
                 <div class="flex direction-column margin-top">
                     <label class="label">Email</label>
                     <mat-form-field appearance="outline" class="rounded-form-field" >
-                        <input  matInput formControlName="email" class="input" placeholder="Enter email address">
+                        <input (input)="onInput()"  matInput formControlName="email" class="input" placeholder="Enter email address">
                     </mat-form-field>
                 </div>
                 <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
                     <mat-error class="mat-error"  *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</mat-error>
+                    <mat-error class="mat-error"  *ngIf="loginForm.get('email')?.errors?.['trimmed']">Email is required</mat-error>
                 </div>
                  <div class="flex direction-column margin-top">
                     <div class="flex justify-between password">
@@ -27,6 +25,7 @@
                 </div>
                 <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
                     <mat-error class="mat-error" *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</mat-error>
+                    <mat-error class="mat-error" *ngIf="loginForm.get('password')?.errors?.['trimmed']">Password is required</mat-error>
                 </div>
                 <div class="flex gap radio">
                     <input type="checkbox" class="cursor"/>

@@ -8,6 +8,8 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { User } from '../User';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-board',
@@ -31,6 +33,7 @@ export class BoardComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private taskService: TaskService,
+    private router : Router
   ) {}
 
   ngOnInit(): void {
@@ -145,4 +148,15 @@ export class BoardComponent implements OnInit {
       this.filterCompleteTasks = this.completeTasks.filter((task:Task)=> task.priority.includes(data)) 
     }
   }
+
+  logout(){
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = users.find((u:User) => u.isLoggedIn === true);
+    if(user){
+      user.isLoggedIn = false;
+      localStorage.setItem('users',JSON.stringify(users));
+      this.router.navigate(['/']);
+    }
+  }
+
 }
