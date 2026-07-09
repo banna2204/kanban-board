@@ -1,0 +1,155 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.board {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.column {
+  flex: 1;
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 10px;
+  min-height: 500px;
+}
+
+.edit-btn{
+  width: fit-content;
+}
+
+mat-card {
+  margin-bottom: 15px;
+  padding: 10px;
+  cursor: pointer;
+  max-width: 450px;
+  overflow: scroll;
+  scroll-behavior: auto;
+  scrollbar-width: none; 
+}
+.edit-icon{
+  font-size: 15px;
+}
+
+.flex{
+  display: flex;
+  justify-content: space-between;
+}
+
+.high{
+  background-color: rgb(240, 135, 135,0.4);
+  color: rgb(223, 29, 29);
+  padding:1px 5px;
+  border-radius:5px ;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.medium{
+  background-color: rgba(247, 169, 141, 0.4);
+  color: rgb(249, 86, 27);
+  padding:1px 4px;
+  border-radius:4px ;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.low{
+  background-color: rgb(117, 236, 117,0.4);
+  color: rgb(23, 204, 23);
+  padding:1px 4px;
+  border-radius:5px ;
+  font-size: 14px;
+  opacity: 0.8;
+}
+.cdk-drag-placeholder{
+  opacity: 0;
+}
+
+.undo{
+  cursor: pointer;
+  margin-left: 10px;
+}
+.undoRedo{
+  margin-left: 20px;
+  display: flex;
+  gap:15px;
+  margin-bottom: -15px;
+}
+
+.input{
+  width: 300px;
+}
+.action-btn{
+  display: flex;
+  gap: 10px;
+  align-self: flex-end;
+}
+.time{
+  color: grey;
+  font-size: 12px;
+}
+
+.active{
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+
+@media (max-width : 950px) {
+  .input{
+    width: 200px;
+  }
+  .board {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  }
+  .column{
+  min-height: 100px;
+  }
+}
+.dropDown-btn{
+  font-size: small;
+  padding: 5px 8px;
+  border: none; 
+  border-radius: 5px;
+  background-color: rgb(101, 101, 249);
+  color: white;
+}
+
+@media (min-width : 700px ) and (max-width : 950px){
+  .card{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 200px;
+  gap: 15px;
+  }
+}
+
+@media (max-width : 700px) {
+  .input{
+    width: 150px;
+  }
+}
+
+@media (max-width : 700px) {
+  .input{
+    display: none;
+  }
+}
+
+@media (max-width : 500px){
+  .dropDown{
+    display: none;
+  }
+  .dropDown-btn{
+    display: none;
+  }
+}

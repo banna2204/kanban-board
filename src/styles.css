@@ -1,1 +1,118 @@
 /* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Poppins, "Helvetica Neue", sans-serif;
+}
+
+.flex {
+    display: flex;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.direction-column {
+    flex-direction: column;
+}
+
+.gap {
+    gap: 5px;
+}
+
+.content {
+    position: relative;
+    height: 600px;
+    width: 404px;
+}
+
+.main {
+    gap: 55px;
+    padding-left: 30px;
+}
+
+.margin-top {
+    margin-top: 10px;
+}
+
+.mat-error {
+    margin-top: -13px;
+    font-size: 10px;
+}
+
+.margin-top-20 {
+    margin-top: 40px;
+}
+
+.account {
+    font-size: 14px;
+    margin-top: 45px;
+    font-weight: 500;
+}
+
+.account a {
+    color: blue;
+}
+
+.line {
+    width: 404px;
+    height: 1px;
+    background-color: rgb(182, 180, 180, 0.5);
+    margin-top: 65px;
+}
+
+.sign-in-other-way {
+    width: 404px;
+}
+
+.border {
+    border: 1px solid rgb(175, 171, 171, 0.7);
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 3px;
+}
+
+form {
+    margin-top: -10px;
+}
+
+.radio {
+    align-self: self-start;
+    margin-top: -8px;
+}
+
+.submit-btn {
+    border: none;
+    width: 404px;
+    height: 32px;
+    border-radius: 10px;
+    background: #3A5B22;
+    color: white;
+}
+
+mat-form-field input::placeholder{
+    font-size: 10px;
+}

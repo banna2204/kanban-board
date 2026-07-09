@@ -1,0 +1,50 @@
+<div class="flex gap main">
+    <div class="register-form flex align-center direction-column margin-top-20">
+        <div class="content margin-top">
+            <div class="get-started">Get Started Now</div>
+            <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+                <div class="flex direction-column margin-top">
+                    <label class="label">Name</label>
+                    <mat-form-field appearance="outline" >
+                        <input  matInput formControlName="name" placeholder="Enter your name">
+                    </mat-form-field>
+                </div>
+                <div *ngIf="registrationForm.get('name')?.touched && registrationForm.get('name')?.invalid">
+                    <mat-error class="mat-error" *ngIf="registrationForm.get('name')?.errors?.['required']">Name is required</mat-error>
+                </div>
+                <div class="flex direction-column margin-top">
+                    <label class="label">Email</label>
+                    <mat-form-field appearance="outline" >
+                        <input  matInput formControlName="email" placeholder="Enter email address">
+                    </mat-form-field>
+                </div>
+                <div *ngIf="registrationForm.get('email')?.touched && registrationForm.get('email')?.invalid">
+                    <mat-error class="mat-error"  *ngIf="registrationForm.get('email')?.errors?.['required']">Email is required</mat-error>
+                </div>
+                 <div class="flex direction-column margin-top">
+                    <label class="label">Password</label>
+                    <mat-form-field appearance="outline" >
+                        <input  matInput formControlName="password"  placeholder="Enter your password">
+                    </mat-form-field>
+                </div>
+                <div *ngIf="registrationForm.get('password')?.touched && registrationForm.get('password')?.invalid">
+                    <mat-error class="mat-error" *ngIf="registrationForm.get('password')?.errors?.['required']">Password is required</mat-error>
+                </div>
+                <div class="flex align-center gap radio">
+                    <input type="checkbox" class="cursor" />
+                    <p class="agree ">I agree to the term and policy</p>
+                </div>
+                <button class="margin-top submit-btn cursor">Sign Up</button>
+            </form>
+            <div class="line"></div>
+            <div class="flex justify-between margin-top-20 sign-in-other-way">
+                <div class="border flex align-center gap cursor" ><img width="15" src="https://images.icon-icons.com/729/PNG/96/google_icon-icons.com_62736.png" alt=""> Sign in with google</div>
+                <div class="border flex align-center gap cursor"><img width="15" src="https://images.icon-icons.com/1/PNG/96/social_apple_mac_65.png" alt=""> Sign in with apple</div>
+            </div>
+            <div class="flex gap account position">Have an account? <a [routerLink]="['/login']">Sign in</a></div>
+        </div>
+    </div> 
+    <div>
+        <img width="430" height="650" src="../../../assets/image.png" alt="" >
+    </div>
+</div>

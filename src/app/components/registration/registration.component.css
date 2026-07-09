@@ -1,0 +1,46 @@
+.register-form {
+    margin-left: 30px;
+}
+
+mat-form-field {
+    height: 45px
+}
+
+.get-started {
+    font-size: 32px;
+    font-weight: bolder;
+    margin-bottom: 40px;
+    width: 260px;
+}
+
+.have-account {
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 25px;
+}
+
+.have-account a {
+    color: blue;
+}
+
+.position {
+    position: absolute;
+    left: 30%;
+}
+
+.agree {
+    font-size: 9px;
+    margin-top: 14px;
+}
+
+
+::ng-deep mat-form-field {
+    .mdc-text-field--outlined {
+        --mdc-outlined-text-field-container-shape: 16px !important;
+        --mdc-outlined-text-field-focus-outline-width: 1px;
+        height: 32px;
+        font-size: 10px;
+        align-items: center;
+        width: 404px;
+    }
+}

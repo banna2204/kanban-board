@@ -1,0 +1,55 @@
+.login-form {
+    margin-left: 30px;
+}
+
+.welcome-back {
+    font-size: 32px;
+    font-weight: bolder;
+    margin-bottom: 18px;
+    width: 260px;
+}
+
+.enter-credential {
+    margin-bottom: 50px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+mat-form-field {
+    height: 45px
+}
+
+.forget-password {
+    color: blue;
+    font-size: 10px;
+}
+
+.sign-in-other-way {
+    width: 40vw;
+    font-size: 12px;
+}
+
+.position {
+    position: absolute;
+    left: 25%;
+    margin-top: 30px;
+}
+.password{
+    margin-bottom: -10px;
+}
+
+.agree {
+    font-size: 9px;
+    margin-top: 14px;
+}
+
+::ng-deep mat-form-field {
+    .mdc-text-field--outlined {
+        --mdc-outlined-text-field-container-shape: 16px !important;
+        --mdc-outlined-text-field-focus-outline-width: 1px;
+        height: 32px;
+        font-size: 10px;
+        align-items: center;
+        width: 404px;
+    }
+}
