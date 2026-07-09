@@ -1,53 +1,46 @@
-.register-form{
-    min-height: 100vh;
-}
-form{
-    margin-top: -10px;
+.register-form {
+    margin-left: 30px;
 }
 
-.get-started{
-    font-size:26px;
+mat-form-field {
+    height: 45px
+}
+
+.get-started {
+    font-size: 32px;
     font-weight: bolder;
     margin-bottom: 40px;
+    width: 260px;
 }
 
-.mat-error{
-    margin-top: -15px;
-}
-mat-form-field{
-    width: 40vw;
-}
-.submit-btn{
-    width: 100%;
-}
-
-.radio{
-    align-self: self-start;
-    margin-top: -5px;
-}
-.agree{
-    padding-top: 15px;
-}
-.submit-btn{
-    width: 100%;
-    border-radius: 40px;
-    padding: 25px 0;
-}
-.have-account{
+.have-account {
     font-size: 14px;
     font-weight: 500;
     margin-top: 25px;
 }
-.have-account a{
+
+.have-account a {
     color: blue;
 }
-:host .rounded-form-field {
-  --mdc-outlined-text-field-container-shape: 32px !important;
-}
-::ng-deep mat-form-field {
 
+.position {
+    position: absolute;
+    left: 30%;
+}
+
+.agree {
+    font-size: 9px;
+    margin-top: 14px;
+}
+
+
+::ng-deep mat-form-field {
     .mdc-text-field--outlined {
-      --mdc-outlined-text-field-container-shape: 32px !important;
-    --mdc-outlined-text-field-focus-outline-width: 2px;
+        --mdc-outlined-text-field-container-shape: 16px !important;
+        --mdc-outlined-text-field-focus-outline-width: 1px;
+        height: 32px;
+        font-size: 10px;
+        align-items: center;
+        width: 404px;
     }
-} 
+}
